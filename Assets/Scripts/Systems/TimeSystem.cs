@@ -52,6 +52,11 @@ public class TimeSystem : MonoBehaviour, ISystem {
 
 	}
 
+	public void AddLeftTime(float sec)
+	{
+		m_leftTime += sec;
+	}
+
 	public void Release ()
 	{
 		

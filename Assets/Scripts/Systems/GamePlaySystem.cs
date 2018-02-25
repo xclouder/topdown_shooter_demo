@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class GamePlaySystem : MonoBehaviour, ISystem {
 
@@ -10,7 +11,12 @@ public class GamePlaySystem : MonoBehaviour, ISystem {
 
 	public void Init ()
 	{
+		m_touchHandlerDict = new Dictionary<System.Type, ITouchEntityHandler>();
+		m_touchHandlerDict.Add(typeof(Crystal), new TouchCrystalHandler());
+		m_touchHandlerDict.Add(typeof(TimeBonus), new TouchTimeBonusHandler());
+
 		EventSys.Instance.AddListener<GameFinishEvt>(OnGameFinish);
+		EventSys.Instance.AddListener<TouchEntityEvt>(OnTouchEntity);
 
 		gameOverUI.Close();
 		gameUI.Open();
@@ -29,6 +35,7 @@ public class GamePlaySystem : MonoBehaviour, ISystem {
 	public void Release ()
 	{
 		EventSys.Instance.RemoveListener<GameFinishEvt>(OnGameFinish);
+		EventSys.Instance.RemoveListener<TouchEntityEvt>(OnTouchEntity);
 	}
 
 	#endregion
@@ -40,6 +47,22 @@ public class GamePlaySystem : MonoBehaviour, ISystem {
 
 		gameUI.Close();
 		gameOverUI.Open();
+	}
+
+	private Dictionary<System.Type, ITouchEntityHandler> m_touchHandlerDict;
+	void OnTouchEntity(TouchEntityEvt evt)
+	{
+		var entity = evt.Entity;
+		ITouchEntityHandler handler = null;
+
+		if (m_touchHandlerDict.TryGetValue(entity.GetType(), out handler))
+		{
+			handler.Handle(entity);
+		}
+		else
+		{
+			Debug.Log("no handler for type:" + entity.GetType());
+		}
 	}
 
 }

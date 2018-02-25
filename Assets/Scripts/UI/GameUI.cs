@@ -20,6 +20,8 @@ public class GameUI : BaseUI {
 		timeSys.onUpdateLeftTime += OnUpdateLeftTime;
 		RefreshTime(timeSys.LeftTime);
 
+		var scoreSys = SystemMgr.Instance.GetSystem<ScoreSystem>();
+		scoreSys.onScoreChanged += OnScoreChanged;
 		RefreshScore();
 
 	}
@@ -35,6 +37,9 @@ public class GameUI : BaseUI {
 
 		var timeSys = SystemMgr.Instance.GetSystem<TimeSystem>();
 		timeSys.onUpdateLeftTime -= OnUpdateLeftTime;
+
+		var scoreSys = SystemMgr.Instance.GetSystem<ScoreSystem>();
+		scoreSys.onScoreChanged -= OnScoreChanged;
 	}
 
 	public override void OnDestroyUI ()
@@ -63,6 +68,11 @@ public class GameUI : BaseUI {
 		int min = sec / 60;
 		sec = sec % 60;
 		return string.Format("{0}:{1:D2}", min, sec);
+	}
+
+	void OnScoreChanged(int score)
+	{
+		RefreshScore();
 	}
 
 }

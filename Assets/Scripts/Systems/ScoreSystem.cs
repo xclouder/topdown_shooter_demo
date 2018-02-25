@@ -38,10 +38,22 @@ public class ScoreSystem : MonoBehaviour, ISystem {
 
 	#endregion
 
+	public delegate void OnScoreChanged(int newScore);
+	public event OnScoreChanged onScoreChanged;
 
 	void OnAddScoreEvt(ScoreAddEvt evt)
 	{
 		m_score += evt.Score;
+
+		NotifyScoreChanged();
+	}
+
+	void NotifyScoreChanged()
+	{
+		if (onScoreChanged != null)
+		{
+			onScoreChanged(m_score);
+		}
 	}
 
 }
