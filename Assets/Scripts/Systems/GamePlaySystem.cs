@@ -14,6 +14,8 @@ public class GamePlaySystem : MonoBehaviour, ISystem {
 		m_touchHandlerDict = new Dictionary<System.Type, ITouchEntityHandler>();
 		m_touchHandlerDict.Add(typeof(Crystal), new TouchCrystalHandler());
 		m_touchHandlerDict.Add(typeof(TimeBonus), new TouchTimeBonusHandler());
+		m_touchHandlerDict.Add(typeof(Gun), new TouchGunHandler());
+		m_touchHandlerDict.Add(typeof(Enemy), new TouchEnemyHandler());
 
 		EventSys.Instance.AddListener<GameFinishEvt>(OnGameFinish);
 		EventSys.Instance.AddListener<TouchEntityEvt>(OnTouchEntity);

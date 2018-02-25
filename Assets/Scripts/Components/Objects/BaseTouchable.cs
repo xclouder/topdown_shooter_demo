@@ -7,10 +7,20 @@ public class BaseTouchable : MonoBehaviour {
 
 	void OnTriggerEnter(Collider collider)
 	{
-		if (responseLayer.value == (1 << collider.gameObject.layer))
+		if (CanResponseLayer(collider.gameObject))
 		{
 			OnTouchEntity();
 		}
+	}
+
+	protected virtual bool CanResponseLayer(GameObject obj)
+	{
+		if (responseLayer.value == (1 << obj.layer))
+		{
+			return true;
+		}
+
+		return false;
 	}
 
 	protected virtual void OnTouchEntity()

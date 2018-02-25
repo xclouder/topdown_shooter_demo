@@ -1,15 +1,23 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class TouchEnemyHandler : MonoBehaviour {
+public class TouchEnemyHandler : ITouchEntityHandler {
+	#region ITouchEntityHandler implementation
 
-	// Use this for initialization
-	void Start () {
-	
+	public void Handle (BaseTouchable entity)
+	{
+		var e = entity as Enemy;
+
+		var evt = new ScoreAddEvt();
+		evt.Score = e.Score;
+		EventSys.Instance.Publish(evt);
+
+		Object.Destroy(entity.gameObject);
 	}
-	
-	// Update is called once per frame
-	void Update () {
-	
-	}
+
+	#endregion
+
+
+
+
 }
