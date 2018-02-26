@@ -56,8 +56,6 @@ public class WeaponSystem : MonoBehaviour, ISystem {
 		var startPos = m_shootPointTr.position;
 		var dir = m_shootPointTr.forward;
 
-		var testobj = GameObject.FindWithTag("Player");
-
 		var bulletObj = GameObject.Instantiate(m_bulletPrefab);
 		var bullet = bulletObj.GetComponent<Bullet>();
 		bullet.speed = m_currWeapon.bulletSpeed;

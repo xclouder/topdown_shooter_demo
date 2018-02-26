@@ -29,8 +29,6 @@ public class EnemySystem : MonoBehaviour, ISystem {
 
 	#endregion
 
-	private float halfAreaWidth = 15f;
-	private float halfAreaHeight = 15f;
 	void SpawnEnemy()
 	{
 		var prefab = Resources.Load("Prefabs/Model/Enemy");
@@ -40,12 +38,10 @@ public class EnemySystem : MonoBehaviour, ISystem {
 			var enemyObj = GameObject.Instantiate(prefab) as GameObject;
 			var enemyTr = enemyObj.transform;
 			enemyTr.SetParent(enemyContainerTr);
-			//enemyTr.localScale = Vector3.one * 0.5f;
 
-			var randomX = Random.Range(-halfAreaWidth, halfAreaWidth);
-			var randomZ = Random.Range(-halfAreaHeight, halfAreaHeight);
-
-			enemyTr.position = new Vector3(randomX, 0.25f, randomZ);
+			var pos = GameUtils.GetRandomPositionInArena();
+			//pos.y = 0.25f;
+			enemyTr.position = pos;
 		}
 	}
 
